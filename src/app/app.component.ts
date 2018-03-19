@@ -8,7 +8,7 @@ import {NgForm} from '@angular/forms';
 })
 export class AppComponent {
   @ViewChild('f') createUserForm: NgForm;
-  subscription = 'Advanced';
+  subscriptionDefaultValue = 'Advanced';
 
   user = {
     email: '',
@@ -23,10 +23,19 @@ export class AppComponent {
   onSubmit() {
     this.submitted = true;
     console.log(this.createUserForm);
+    this.extractUserValuesIntoObject();
+    this.resetTheForm();
+
+  }
+
+  private extractUserValuesIntoObject() {
     this.user.email = this.createUserForm.value.email;
     this.user.subscription = this.createUserForm.value.subscriptionType;
     this.user.password = this.createUserForm.value.password;
-    this.createUserForm.reset();
+  }
 
+  private resetTheForm() {
+    this.createUserForm.reset();
+    this.createUserForm.form.patchValue({subscriptionType: this.subscriptionDefaultValue});
   }
 }
